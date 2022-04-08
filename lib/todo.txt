@@ -1,0 +1,30 @@
+ui참고 사이트
+https://dribbble.com/shots/9579493-Social-app-screen
+
+
+auth관련
+로그인창 패스워드 복구시 ux개선
+로그인 실패시 로딩창만 나옴 -- 해결 냐옹쮸
+추후에 이메일 verify 추가하기
+@.1 User user = FirebaseAuth.instance.currentUser;
+
+if (!user.emailVerified) {
+  await user.sendEmailVerification();
+}
+
+@.2 FirebaseAuth.instance.currentUser!.sendEmailVerification()
+
+ui관련
+메인 ui 디자인 개선
+텍스트폼 입력시 렌더링박스 커져서 오류생기는서(유저스크린창)
+task 추가창에서 끝나는 시간이나 시작 시간 한번 입력 시 다른거 입력이 안됨
+
+@ 지금 하고있는거
+
+firebase storage관련
+유저 프로필 업데이트 및 가져오기
+https://medium.com/flutter-community/firebase-startup-logic-and-custom-user-profiles-6309562ea8b7
+
+프로필데이터 말고 다른(task데이터)데이터 보내는거
+https://young-duck.tistory.com/58
+

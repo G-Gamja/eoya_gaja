@@ -1,0 +1,214 @@
+import 'package:eoyagaja/%20screen/getstate/weatherstate.dart';
+import 'package:eoyagaja/custom/custom_icons_icons.dart';
+import 'package:eoyagaja/model/weathermodel.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get/instance_manager.dart';
+import 'package:intl/intl.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
+//https://pub.dev/packages/weather/example
+import 'package:weather/weather.dart';
+//대기창 패키지
+//https://pub.dev/packages/flutter_spinkit/install
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:geolocator/geolocator.dart';
+
+//!  ios 위치 정보 사용 permission은 설정안했으니 설정해야해 https://www.youtube.com/watch?v=YqKMBQYZSmw&t=100s
+class WeatherDisplay extends StatefulWidget {
+  int? pageindex;
+  WeatherDisplay(this.pageindex);
+  @override
+  _WeatherDisplayState createState() => _WeatherDisplayState();
+}
+
+class _WeatherDisplayState extends State<WeatherDisplay> {
+  String key = '856822fd8e22db5e1ba48c0e7d69844a';
+  WeatherFactory? ws;
+  //List<Weather> _data = [];
+  //geolocator써서 현재 디바이스의 위경도 받아오기
+  double lat = 47, lon = 126;
+  int? noww;
+  //코드에 따른 현 날씨
+  //https://openweathermap.org/weather-conditions#Icon-list
+  String? wtstate;
+  Widget? weatherIcon;
+  Weather? w;
+  @override
+  void initState() {
+    super.initState();
+    ws = new WeatherFactory(key, language: Language.KOREAN);
+    getLocation();
+    queryWeather();
+    //weathercheck();
+  }
+
+  void queryWeather() async {
+    Weather weather = await ws!.currentWeatherByLocation(lat, lon);
+
+    noww = weather.weatherConditionCode;
+    w = weather;
+    print('hi');
+    print(weather.weatherConditionCode);
+    print(weather.weatherIcon);
+    wtstate = w!.weatherIcon;
+    weatherIcon = WeatherModel.getWeatherIcon(w!.weatherConditionCode);
+  }
+
+  //* 위치 얻어오는 함수
+  void getLocation() async {
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    lat = position.latitude;
+    lon = position.longitude;
+    print(lat);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    //queryWeather();
+    // weathercheck();
+    // Get.find<WeatherControlloer>().queryWeather();
+    // GetBuilder<WeatherControlloer>(
+    //   builder: (controller) {
+    //     return Text('${controller.noww}');
+    //   },
+    //   init: WeatherControlloer(),
+    // );
+
+    return weatherIcon == null
+        ? Container(
+            padding: EdgeInsets.all(10),
+            //child: SpinKitHourGlass(color: Colors.black)
+          )
+        : widget.pageindex == 0
+            ? Container(
+                padding: EdgeInsets.all(10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Column(
+                      children: [
+                        Container(child: weatherIcon),
+                        Text(
+                          w!.weatherDescription!,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          '${w!.temperature!.celsius!.truncate()}°',
+                          style: TextStyle(
+                              // color: w!.temperature!.celsius!.truncate() > 5
+                              //     ? Colors.white
+                              //     : weathercheck(),
+                              color: Colors.white,
+                              fontSize: 50,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          '체감 온도 ${w!.tempFeelsLike!.celsius!.truncate()}°',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                          ),
+                        ),
+                        // Text(
+                        //   DateFormat.M().format(
+                        //     DateTime.now(),
+                        //   ),
+                        //   style: TextStyle(
+                        //     color: Colors.white,
+                        //     fontSize: 15,
+                        //   ),
+                        // ),
+                      ],
+                    ),
+                  ],
+                ),
+              )
+            : widget.pageindex == 1
+                ? Container(
+                    padding: EdgeInsets.all(10),
+                    child: Column(
+                      children: [
+                        Text(
+                          '${w!.weatherMain}',
+                          style: TextStyle(
+                              // color: w!.temperature!.celsius!.truncate() > 5
+                              //     ? Colors.white
+                              //     : weathercheck(),
+                              color: Colors.white,
+                              fontSize: 50,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  )
+                : Container(
+                    padding: EdgeInsets.all(10),
+                    child: Column(
+                      children: [
+                        Text(
+                          '${w!.windDegree}',
+                          style: TextStyle(
+                              // color: w!.temperature!.celsius!.truncate() > 5
+                              //     ? Colors.white
+                              //     : weathercheck(),
+                              color: Colors.white,
+                              fontSize: 50,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  );
+    // Container(
+    //   padding: EdgeInsets.all(10),
+    //   child: Row(
+    //       children: [
+    //         CircleAvatar(
+    //           radius: 30,
+    //           backgroundImage: NetworkImage(
+    //               'http://openweathermap.org/img/wn/$wtstate@2x.png'),
+    //           backgroundColor: Colors.transparent
+    //           //child: Text(w.weatherDescription,textScaleFactor: 0.5,style: TextStyle(),),
+    //         ),
+    //         SizedBox(
+    //           width: 10,
+    //         ),
+    //         Text(w!.weatherDescription!),
+    //         //Icon(CustomIcons.thermometer_half),
+    //         Icon(Icons.device_thermostat_rounded,color: Colors.white,),
+    //         Text('${w!.temperature!.celsius!.truncate()}도'),
+    //        //Text(w!.weatherMain!),
+    //         Text('${w!.areaName}')
+
+    //         //Text(w!.te)
+    //       ],
+    //     ),
+    // );
+  }
+
+  weathercheck() {
+    if (weatherIcon != null) {
+      if (w!.temperature!.celsius!.truncate() < 5) {
+        showTopSnackBar(
+            context,
+            CustomSnackBar.error(
+              message: "날씨가 너무 추워요 산책할 때 조심하세요",
+            ),
+            //onTap: ,
+            displayDuration: const Duration(milliseconds: 300));
+      }
+    }
+  }
+}

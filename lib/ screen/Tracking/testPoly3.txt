@@ -1,0 +1,115 @@
+import 'package:flutter/material.dart';
+import 'dart:async';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+class testPoly3 extends StatefulWidget {
+  @override
+  _testPoly3State createState() => _testPoly3State();
+}
+
+class _testPoly3State extends State<testPoly3> {
+  Set<Polyline> lines = {};
+  // Set<Marker> _createMarker() {
+  //   return <Marker>[
+  //     Marker(
+  //       markerId: MarkerId("marker_1"),
+  //       position: _kMapCenter,
+  //       icon: _markerIcon,
+  //       infoWindow: InfoWindow(
+  //         title: 해당주소명,
+  //       ),
+  //     ),
+  //   ].toSet();
+  // }
+  Completer<GoogleMapController> _controller = Completer();
+
+  static final CameraPosition _kGooglePlex =
+      CameraPosition(target: LatLng(12.988827, 77.472091), zoom: 13);
+
+  @override
+  void initState() {
+    super.initState();
+
+    lines.add(
+      Polyline(
+        points: [LatLng(12.949798, 77.470534), LatLng(12.938614, 77.469379)],
+        color: Colors.amber,
+        polylineId: PolylineId("line_one"),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      floatingActionButton: IconButton(
+        icon: Icon(Icons.add),
+        onPressed: () {
+          lines.add(
+            Polyline(
+                points: [
+                  LatLng(12.988827, 77.472091),
+                  LatLng(12.980821, 77.470815),
+                  LatLng(12.969406, 77.471301)
+                ],
+                startCap: Cap.squareCap,
+                endCap: Cap.roundCap,
+                geodesic: false,
+                polylineId: PolylineId("line_one"),
+                color: Colors.blueGrey),
+          );
+        },
+      ),
+      body: Stack(
+        children: [
+          GoogleMap(
+            mapType: MapType.normal,
+            myLocationEnabled: true,
+            initialCameraPosition: _kGooglePlex,
+            onMapCreated: (GoogleMapController controller) {
+              _controller.complete(controller);
+            },
+            polylines: lines,
+            // markers: ,
+          ),
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () {
+              setState(
+                () {
+                  lines.add(
+                    Polyline(
+                        points: [
+                          LatLng(12.988827, 77.472091),
+                          LatLng(12.980821, 77.470815),
+                          LatLng(12.969406, 77.471301)
+                        ],
+                        endCap: Cap.roundCap,
+                        geodesic: false,
+                        polylineId: PolylineId("line_one"),
+                        color: Colors.blueGrey),
+                  );
+                },
+              );
+            },
+          ),
+          DraggableScrollableSheet(
+            builder: (BuildContext context, ScrollController scrollController) {
+              return Container(
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(50),color: Colors.indigo,),
+                //color: Colors.blue[100],
+                child: ListView.builder(
+                  controller: scrollController,
+                  itemCount: 5,
+                  itemBuilder: (BuildContext context, int index) {
+                    return ListTile(title: Text('Item $index'));
+                  },
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}

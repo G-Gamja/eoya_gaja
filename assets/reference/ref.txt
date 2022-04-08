@@ -1,0 +1,6 @@
+상단 스낵바: https://pub.dev/packages/top_snackbar_flutter/example
+get: https://pub.dev/packages/get/install
+다중 애니메이션 플로팅 버튼(원래거보다 이게 더 좋은듯): https://pub.dev/packages/animated_floating_buttons/install
+//아이콘 url들: https://www.flaticon.com/uicons
+
+<div>아이콘 제작자 <a href="https://www.flaticon.com/kr/authors/pixel-perfect" title="Pixel perfect">Pixel perfect</a> from <a href="https://www.flaticon.com/kr/" title="Flaticon">www.flaticon.com</a></div>

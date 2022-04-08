@@ -1,0 +1,130 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eoyagaja/model/dailydata.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firestore_ui/animated_firestore_list.dart';
+import 'package:flutter/material.dart';
+import 'package:swipeable_tile/swipeable_tile.dart';
+
+class MeMo2Widget extends StatefulWidget {
+  String? selectedDate;
+  MeMo2Widget(this.selectedDate);
+  @override
+  _MeMo2WidgetState createState() => _MeMo2WidgetState();
+}
+
+class _MeMo2WidgetState extends State<MeMo2Widget> {
+  Future deleteDaily() async {
+    try {
+      //* 신상정보 입력
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser?.uid)
+          .collection('dailydata')
+          //todo 여기 각 개별 아이디 파라미터로 받아서 지우는거야
+          .doc()
+          .delete();
+    } catch (e) {
+      return;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var currentuser = FirebaseAuth.instance.currentUser;
+    // Get.find<WeatherControlloer>().queryWeather();
+    Stream<List<DailyData>> readDailyData() => FirebaseFirestore.instance
+        .collection('users')
+        .doc(currentuser?.uid)
+        .collection('dailydata')
+        .orderBy('date', descending: true)
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+            .map((doc) => DailyData.fromData(doc.data()))
+            .toList());
+
+    Future<DailyData?> readDailyData2() async {
+      final docDaily = FirebaseFirestore.instance
+        .collection('users')
+        .doc(currentuser?.uid)
+        .collection('dailydata').doc('date');
+
+      final snapshot = await docDaily.get();
+      if(snapshot.exists) {
+        return DailyData.fromData(snapshot.data()!);
+      }
+    }
+    return FutureBuilder<DailyData?>(
+      future: readDailyData2(),
+      builder:
+          //  (BuildContext context, AsyncSnapshot<QuerySnapshot> dailysnapshot) {
+          (context, dailysnapshot) {
+        if (dailysnapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        if (dailysnapshot.hasError) {
+          return Text('wrond');
+        } else if (dailysnapshot.hasData) {
+          final dailydoc = dailysnapshot.data!;
+          return ListView.builder(
+            //아이템수
+            itemCount: dailydoc.length,
+            itemBuilder: (BuildContext context, int index) {
+              return SwipeableTile.card(
+                color: Colors.indigo,
+                shadow: BoxShadow(
+                  color: Colors.black.withOpacity(0.35),
+                  blurRadius: 4,
+                  offset: Offset(2, 2),
+                ),
+                horizontalPadding: 16,
+                verticalPadding: 8,
+                direction: SwipeDirection.startToEnd,
+                onSwiped: (direction) {
+                  if (direction == SwipeDirection.startToEnd) {
+                    deleteDaily();
+                  }
+                },
+                backgroundBuilder: (context, direction, progress) {
+                  // You can animate background using the progress
+                  return AnimatedBuilder(
+                    animation: progress,
+                    builder: (context, child) {
+                      return AnimatedContainer(
+                        duration: const Duration(milliseconds: 400),
+                        color: progress.value > 0.4
+                            ? Color(0xFFed7474)
+                            : Color(0xFFeded98),
+                      );
+                    },
+                  );
+                },
+                key: UniqueKey(),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 0.0),
+                  child: Container(
+                    height: 100,
+                    width: MediaQuery.of(context).size.width - 50,
+                    child: Text(
+                      //* 텍스트 위치
+                      //*각 타일의 id
+                      //dailydoc[index].id
+                      dailydoc[index]['snacks'],
+                      style: TextStyle(fontSize: 30),
+                    ),
+                    color: Colors.indigo[400],
+                  ),
+                ),
+              );
+            },
+          );
+        } else {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
+    );
+  }
+}
