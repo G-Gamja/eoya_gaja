@@ -1,6 +1,6 @@
 # eoya_gaja
-
-A new Flutter project.
+ 
+ 소중한 반려견의 식단관리와 산책 다이어리에 기록하는 일을 게임처럼 느낄 수 있도록 UI에 넛지 디자인을 적용시킨 반려견 전용 다이어리 앱입니다. 
 
 ## Getting Started
 
