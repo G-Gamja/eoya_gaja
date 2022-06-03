@@ -8,8 +8,8 @@ This project is a starting point for a Flutter application.
 
 A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+#어야가자 UI별 기능정리 ppt
+[안시헌_201821936_포트폴리오.pptx](https://github.com/G-Gamja/eoya_gaja/files/8830796/_201821936_.pptx)
 
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
