@@ -5,7 +5,7 @@ class StatsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.amber,
-      body: Center(child: Text('장차 통계를 보여주는 페이지가 될 것 입니다요')),
+      body: Center(child: Text('추후 추가될 기능은 이  페이지에 구현')),
     );
   }
 }

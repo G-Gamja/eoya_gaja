@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 class TopItems extends StatelessWidget {
   String _mainhead;
   //int _subnum;
-  Color _boxcolor;
+  // Color _boxcolor;
+  String _belowstring;
   //IconData _icon;
   String _iconString;
-  TopItems(this._mainhead, this._boxcolor, this._iconString);
+  TopItems(this._mainhead, this._belowstring, this._iconString);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -39,7 +40,9 @@ class TopItems extends StatelessWidget {
             children: [
               //Icon(_icon,size: 40,color: Colors.indigo[400],),
               Image.asset(_iconString,
-                  width: 40, height: 40, color: _boxcolor //Colors.indigo[400],
+                  width: 40,
+                  height: 40,
+                  color: Theme.of(context).highlightColor //Colors.indigo[400],
                   ),
               // Text(
               //   _mainhead,
@@ -56,15 +59,15 @@ class TopItems extends StatelessWidget {
           Container(
             //width: 100,
             child: FittedBox(
-              child:
-                  Text('6h 45m', style: Theme.of(context).textTheme.headline4),
+              child: Text(this._mainhead,
+                  style: Theme.of(context).textTheme.headline4),
             ),
           ),
           Container(
             // width: 130,
             child: FittedBox(
-              child:
-                  Text('0.45km', style: Theme.of(context).textTheme.headline4),
+              child: Text(_belowstring,
+                  style: Theme.of(context).textTheme.headline4),
             ),
           ),
         ],

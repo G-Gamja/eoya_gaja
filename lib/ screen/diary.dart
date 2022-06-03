@@ -44,11 +44,11 @@ class _DiaryScreenState extends State<DiaryScreen> {
     return [
       QudsPopupMenuSection(
           backgroundColor: Colors.yellow.shade200,
-          titleText: 'Training',
-          subTitle: const Text('소리로 트레이닝을 해보세요'),
+          titleText: 'Logout',
+          subTitle: const Text('로그아웃을 하고 싶다면 이곳으로'),
           leading: const Icon(
             Icons.redeem,
-            size: 40,
+            //size: 35,
           ),
           subItems: [
             QudsPopupMenuSection(
@@ -459,8 +459,9 @@ class _DiaryScreenState extends State<DiaryScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               TopItems(
-                                  '오늘의 산책',
-                                  Theme.of(context).highlightColor,
+                                  '사료 4컵',
+                                  '500g',
+                                  //Theme.of(context).highlightColor,
                                   'assets/images/dog-dish.png'),
                               Container(
                                 decoration: BoxDecoration(
@@ -471,8 +472,9 @@ class _DiaryScreenState extends State<DiaryScreen> {
                                 height: 40,
                               ),
                               TopItems(
-                                  '오늘의 밥',
-                                  Theme.of(context).highlightColor,
+                                  '츄르',
+                                  '2 스틱',
+                                  // Theme.of(context).highlightColor,
                                   'assets/images/dog-dish.png')
                             ],
                           ),

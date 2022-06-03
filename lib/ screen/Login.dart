@@ -116,7 +116,7 @@ class LoginScreen extends StatelessWidget {
       theme: LoginTheme(),
       title: 'EOYA_GAJA',
       //이미지는 꼭 야믈파일에 자산추가 해줘야해, 폰트도 당연하고
-      logo: 'assets/images/ahn.png',
+      // logo: 'assets/images/ahn.png',
       userValidator: (value) {
         if (!value!.contains('@') || !value.endsWith('.com')) {
           return "이메일형식을 확인주세요";

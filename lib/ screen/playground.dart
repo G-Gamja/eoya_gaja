@@ -33,7 +33,7 @@ class _playGroundState extends State<playGround> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('쓸만한 위젯 모음 ㅋ'),
+        title: const Text('For Test'),
       ),
       body: Center(
         child: SingleChildScrollView(
