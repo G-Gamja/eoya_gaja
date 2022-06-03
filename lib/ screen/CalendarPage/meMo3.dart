@@ -75,7 +75,7 @@ class _MeMo3WidgetState extends State<MeMo3Widget> {
   Widget build(BuildContext context) {
     // Get.find<WeatherControlloer>().queryWeather();
     Get.put(DailyDataController()).fetchdailyDB(widget.selectedDate);
-    //getx를 통해 화면이 끊김없도록 구현
+    //getx를 통해 화면이 끊김없도록 구현했습니다.
     //List<GlobalKey<AnimatorWidgetState>> keys = [];
     //GlobalKey<AnimatorWidgetState> key = GlobalKey<AnimatorWidgetState>();;
     return GetBuilder<DailyDataController>(
